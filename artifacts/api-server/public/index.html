@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark City Bot | دارك سيتي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0b0f;
+      --surface: #12141a;
+      --surface2: #1a1d27;
+      --border: #2a2d3a;
+      --accent: #7c5cbf;
+      --accent2: #5865f2;
+      --gold: #f0c040;
+      --text: #e8eaf0;
+      --muted: #8b8fa8;
+      --red: #ed4245;
+      --green: #57f287;
+      --yellow: #fee75c;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,11,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .75rem; font-weight: 900; font-size: 1.3rem; color: var(--gold); }
+    .nav-logo img { width: 38px; height: 38px; border-radius: 50%; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-weight: 600; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-btn {
+      background: var(--accent2); color: #fff; padding: .5rem 1.2rem;
+      border-radius: 8px; text-decoration: none; font-weight: 700; font-size: .9rem;
+      transition: opacity .2s;
+    }
+    .nav-btn:hover { opacity: .85; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2rem 3rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,191,.18) 0%, transparent 70%);
+      position: relative;
+    }
+    .hero-inner { max-width: 780px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(124,92,191,.15); border: 1px solid rgba(124,92,191,.35);
+      padding: .35rem 1rem; border-radius: 999px;
+      font-size: .85rem; color: var(--accent); margin-bottom: 1.5rem; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900; line-height: 1.1;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 70%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--muted); max-width: 560px;
+      margin: 0 auto 2.5rem; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; padding: .85rem 2rem; border-radius: 10px;
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(88,101,242,.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(88,101,242,.5); }
+    .btn-secondary {
+      background: var(--surface2); color: var(--text); padding: .85rem 2rem;
+      border-radius: 10px; text-decoration: none; font-weight: 700;
+      border: 1px solid var(--border); transition: border-color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 1.8rem; font-weight: 900; color: var(--gold); }
+    .stat-lbl { font-size: .85rem; color: var(--muted); margin-top: .2rem; }
+
+    /* ─── SECTION ─── */
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-tag { color: var(--accent); font-weight: 700; font-size: .9rem; letter-spacing: .05em; margin-bottom: .5rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: .75rem; }
+    .section-desc { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 600px; }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem; margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.75rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-weight: 700; margin-bottom: .5rem; }
+    .feature-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    /* ─── COMMANDS ─── */
+    .commands-wrap { margin-top: 3rem; }
+    .cmd-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .cmd-tab {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: .5rem 1.2rem; border-radius: 8px; cursor: pointer;
+      font-family: 'Cairo', sans-serif; font-weight: 600; font-size: .9rem;
+      color: var(--muted); transition: all .2s;
+    }
+    .cmd-tab.active, .cmd-tab:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+    .cmd-list { display: none; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .75rem; }
+    .cmd-list.active { display: grid; }
+    .cmd-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.2rem;
+    }
+    .cmd-item code {
+      display: block; color: var(--accent2); font-size: .95rem;
+      font-family: monospace; margin-bottom: .35rem;
+    }
+    .cmd-item span { color: var(--muted); font-size: .85rem; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      max-width: 100%; background: var(--surface);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 5rem 2rem; text-align: center;
+    }
+    .cta-section h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 1rem; }
+    .cta-section p { color: var(--muted); margin-bottom: 2rem; font-size: 1.05rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center; color: var(--muted); font-size: .9rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ─── LIVE BADGE ─── */
+    #live-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .3rem .9rem; border-radius: 999px;
+      font-size: .8rem; font-weight: 700; margin-right: 1rem;
+      background: rgba(87,242,135,.12); border: 1px solid rgba(87,242,135,.3);
+      color: var(--green);
+    }
+    #live-badge.offline { background: rgba(237,66,69,.12); border-color: rgba(237,66,69,.3); color: var(--red); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .offline .dot { background: var(--red); animation: none; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">
+    <span>🌆</span>
+    <span>Dark City</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">المميزات</a>
+    <a href="#commands">الأوامر</a>
+    <a href="/dashboard">الداشبورد</a>
+  </div>
+  <a class="nav-btn" href="https://discord.com/oauth2/authorize?client_id=1489243343971156038&permissions=8&scope=bot%20applications.commands" target="_blank">
+    ➕ أضف البوت
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span id="live-badge"><span class="dot"></span><span id="badge-text">جارٍ التحقق...</span></span>
+      بوت المودريشن العربي
+    </div>
+    <h1>دارك سيتي<br/>البوت الإداري</h1>
+    <p>بوت ديسكورد متكامل باللغة العربية — يضم أكثر من 30 أمر للمودريشن، نظام المخالفات المرورية، إدارة الرتب، الردود التلقائية، وأكثر.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1489243343971156038&permissions=8&scope=bot%20applications.commands" target="_blank">
+        ➕ أضف للسيرفر
+      </a>
+      <a class="btn-secondary" href="/dashboard">📊 الداشبورد</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-item"><div class="stat-num" id="s-guilds">—</div><div class="stat-lbl">سيرفر</div></div>
+  <div class="stat-item"><div class="stat-num">30+</div><div class="stat-lbl">أمر عربي</div></div>
+  <div class="stat-item"><div class="stat-num" id="s-violations">—</div><div class="stat-lbl">مخالفة مُسجَّلة</div></div>
+  <div class="stat-item"><div class="stat-num" id="s-warns">—</div><div class="stat-lbl">إنذار مُصدَر</div></div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-tag">✦ المميزات</div>
+  <h2 class="section-title">كل شيء تحتاجه لإدارة سيرفرك</h2>
+  <p class="section-desc">جميع الأدوات الإدارية مجتمعة في بوت واحد، مصمم خصيصاً للمجتمعات العربية.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔨</div>
+      <h3>المودريشن الكامل</h3>
+      <p>حظر، طرد، كتم، إنذارات — كل شيء بأمر واحد وبالعربي.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚨</div>
+      <h3>نظام المخالفات المرورية</h3>
+      <p>إصدار مخالفات مرورية للأعضاء مع إشعار مباشر وتتبع السداد.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>نظام السجن</h3>
+      <p>سجن العضو بإزالة كل رتبه وحفظها لاسترجاعها لاحقاً.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎭</div>
+      <h3>إدارة الرتب</h3>
+      <p>إضافة وإزالة حتى 5 رتب دفعة واحدة على أي عضو.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>الردود التلقائية</h3>
+      <p>إضافة ردود تلقائية مخصصة لكل كلمة أو جملة في السيرفر.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💤</div>
+      <h3>نظام الغياب AFK</h3>
+      <p>إعلام الأعضاء تلقائياً عند ذكر شخص في وضع الغياب.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDS -->
+<section id="commands" style="padding-top:1rem;">
+  <div class="section-tag">✦ الأوامر</div>
+  <h2 class="section-title">أكثر من 30 أمر عربي</h2>
+  <p class="section-desc">جميع الأوامر بالعربية ومصممة لتكون سهلة الاستخدام.</p>
+
+  <div class="commands-wrap">
+    <div class="cmd-tabs">
+      <button class="cmd-tab active" onclick="showTab('moderation', this)">🔨 مودريشن</button>
+      <button class="cmd-tab" onclick="showTab('violations', this)">🚨 مخالفات</button>
+      <button class="cmd-tab" onclick="showTab('roles', this)">🎭 رتب</button>
+      <button class="cmd-tab" onclick="showTab('channels', this)">💬 قنوات</button>
+      <button class="cmd-tab" onclick="showTab('tools', this)">🛠️ أدوات</button>
+    </div>
+
+    <div class="cmd-list active" id="tab-moderation">
+      <div class="cmd-item"><code>/حظر</code><span>حظر عضو من السيرفر</span></div>
+      <div class="cmd-item"><code>/رفع_حظر</code><span>رفع الحظر عن مستخدم</span></div>
+      <div class="cmd-item"><code>/طرد</code><span>طرد عضو من السيرفر</span></div>
+      <div class="cmd-item"><code>/كتم</code><span>كتم عضو مؤقتاً</span></div>
+      <div class="cmd-item"><code>/رفع_كتم</code><span>رفع الكتم عن عضو</span></div>
+      <div class="cmd-item"><code>/انذار</code><span>إنذار عضو في السيرفر</span></div>
+      <div class="cmd-item"><code>/الانذارات</code><span>عرض إنذارات عضو</span></div>
+      <div class="cmd-item"><code>/مسح_انذارات</code><span>مسح جميع إنذارات عضو</span></div>
+      <div class="cmd-item"><code>/سجن</code><span>سجن عضو وإزالة رتبه</span></div>
+      <div class="cmd-item"><code>/استرجاع_رتب</code><span>استرجاع رتب العضو بعد السجن</span></div>
+    </div>
+
+    <div class="cmd-list" id="tab-violations">
+      <div class="cmd-item"><code>/مخالفة</code><span>إصدار مخالفة مرورية لعضو</span></div>
+      <div class="cmd-item"><code>/مخالفات</code><span>عرض مخالفات عضو (إدارة)</span></div>
+      <div class="cmd-item"><code>/مخالفاتي</code><span>عرض مخالفاتي الشخصية</span></div>
+      <div class="cmd-item"><code>/سداد</code><span>تسجيل سداد مخالفة</span></div>
+    </div>
+
+    <div class="cmd-list" id="tab-roles">
+      <div class="cmd-item"><code>/رتبة</code><span>إضافة أو إزالة رتبة من عضو</span></div>
+      <div class="cmd-item"><code>/طلب_رتبة</code><span>إعطاء عضو حتى 5 رتب</span></div>
+      <div class="cmd-item"><code>/ازالة_رتبة</code><span>إزالة حتى 5 رتب من عضو</span></div>
+      <div class="cmd-item"><code>/تغيير_اسم</code><span>تغيير لقب عضو</span></div>
+    </div>
+
+    <div class="cmd-list" id="tab-channels">
+      <div class="cmd-item"><code>/مسح</code><span>حذف رسائل من القناة</span></div>
+      <div class="cmd-item"><code>/تباطو</code><span>تفعيل وضع التباطؤ</span></div>
+      <div class="cmd-item"><code>/قفل</code><span>قفل القناة</span></div>
+      <div class="cmd-item"><code>/فتح</code><span>فتح القناة</span></div>
+      <div class="cmd-item"><code>/اعلان</code><span>إرسال إعلان في قناة</span></div>
+    </div>
+
+    <div class="cmd-list" id="tab-tools">
+      <div class="cmd-item"><code>/بنج</code><span>فحص استجابة البوت</span></div>
+      <div class="cmd-item"><code>/معلومات_عضو</code><span>عرض معلومات عضو</span></div>
+      <div class="cmd-item"><code>/معلومات_سيرفر</code><span>عرض معلومات السيرفر</span></div>
+      <div class="cmd-item"><code>/ردود_تلقائية</code><span>إدارة الردود التلقائية</span></div>
+      <div class="cmd-item"><code>/خط</code><span>إرسال خط فاصل</span></div>
+      <div class="cmd-item"><code>/afk</code><span>تفعيل وضع الغياب</span></div>
+      <div class="cmd-item"><code>/اوامر</code><span>عرض قائمة جميع الأوامر</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>جاهز لتطوير سيرفرك؟</h2>
+  <p>أضف دارك سيتي الآن وابدأ باستخدام أكثر من 30 أمر عربي مجاناً.</p>
+  <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1489243343971156038&permissions=8&scope=bot%20applications.commands" target="_blank">
+    ➕ أضف البوت الآن
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>صُنع بـ ❤️ لمجتمع دارك سيتي | <a href="/dashboard">الداشبورد</a></p>
+</footer>
+
+<script>
+  function showTab(id, el) {
+    document.querySelectorAll('.cmd-list').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.cmd-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  async function loadStats() {
+    try {
+      const r = await fetch('/api/stats');
+      const d = await r.json();
+      const badge = document.getElementById('live-badge');
+      const badgeText = document.getElementById('badge-text');
+      if (d.bot.online) {
+        badgeText.textContent = 'متصل • ' + (d.bot.tag ?? '');
+      } else {
+        badge.classList.add('offline');
+        badgeText.textContent = 'غير متصل';
+      }
+      document.getElementById('s-guilds').textContent = d.bot.guilds ?? '—';
+      document.getElementById('s-violations').textContent = d.violations.total ?? '—';
+      document.getElementById('s-warns').textContent = d.warnings.total ?? '—';
+    } catch { }
+  }
+  loadStats();
+</script>
+</body>
+</html>

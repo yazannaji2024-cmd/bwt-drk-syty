@@ -30,3 +30,4 @@ externalPort = 80
 [userenv]
 
 [userenv.shared]
+ENABLE_MESSAGE_CONTENT = "true"
